@@ -1,0 +1,3 @@
+[submodule "lib/moviewatcher"]
+	path = lib/moviewatcher
+	url = git@github.com:alberttxu/moviewatcher.git
