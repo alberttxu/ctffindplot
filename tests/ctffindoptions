@@ -1,0 +1,22 @@
+ctffind << EOF
+(filename)
+(dest)/(basename)_output.mrc
+1.059
+300.0
+2.70
+0.07
+512
+30.0
+5.0
+5000.0
+50000.0
+100.0
+no
+no
+no
+yes
+0.0
+3.15
+0.5
+no
+EOF
