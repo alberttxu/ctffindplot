@@ -1,6 +1,6 @@
 ctffind << EOF
 (filename)
-(dest)/(basename)_output.mrc
+(basename)_output.mrc
 1.059
 300.0
 2.70
@@ -20,3 +20,6 @@ yes
 0.5
 no
 EOF
+
+./phasePlot.py (basename)_output.txt
+rm (basename)_output.mrc (basename)_output_avrot.txt (basename)_output.txt
