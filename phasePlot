@@ -1,0 +1,12 @@
+#!/bin/sh
+SCRIPTDIR="$(cd "$(dirname "$0")"; pwd -P)"
+echo $SCRIPTDIR
+if [ -n "$1" ]; then
+    echo "cd $1"
+    cd "$1"
+fi
+
+$SCRIPTDIR/lib/moviewatcher/moviewatcher \
+    -d done \
+    -ext _ali.mrc \
+    -c $SCRIPTDIR/ctffindoptions
