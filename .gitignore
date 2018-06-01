@@ -1,3 +1,7 @@
 env/
+tests/done/
+tests/*.mrc
+tests/log.txt
+tests/plot.png
 *.swp
 *.dff

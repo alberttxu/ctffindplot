@@ -7,8 +7,6 @@
 # taken from Stack Overflow answer:
 # http://stackoverflow.com/a/38937732/7002068
 
-HOMEDIR=$(dirname "$0")/..
-
 gdrive_download () {
     gURL=$1
     # match more than 26 word characters

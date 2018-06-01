@@ -3,14 +3,9 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
-#ctffind_txt = "WL2121S-Ag2_1378_output.txt"
-logfile = 'log.txt'
-#logfile = 'log2.txt'
-#logfile = 'asdf.txt'
-
 ctffind_txt = sys.argv[1]
-#logfile = sys.argv[2] # space separated csv
-pngOut = "plot.png"
+logfile = 'log.txt'
+pngOut = 'plot.png'
 
 def ctffindPhase():
     try:
@@ -25,10 +20,7 @@ def ctffindPhase():
     picNumber = int(filename.split('_')[-2])
     phaseShiftRad = float(lines[5].split()[4])
     phaseShiftDeg = phaseShiftRad * 180 / 3.14
-    #print(picNumber, float("%.2f" % phaseShiftDeg))
     return picNumber, float("%.2f" % phaseShiftDeg)
-
-#print(ctffindPhase())
 
 def readLog():
     try:
@@ -40,8 +32,6 @@ def readLog():
         open(logfile, 'a').close()
         return np.array()
 
-#print(readLog())
-
 def updateLog(debug=False):
     data = readLog().tolist()
     if data[0] == []:
@@ -49,7 +39,7 @@ def updateLog(debug=False):
     data.append(ctffindPhase())
     data = [list(x) for x in set(tuple(x) for x in data)]
     data.sort(key=lambda x: x[0])
-    #print(data)
+
     with open(logfile, 'w') as f:
         for picNumber, phaseShift in data:
             f.write("%d %.2f\n" % (int(picNumber), phaseShift))
@@ -57,8 +47,6 @@ def updateLog(debug=False):
         import subprocess
         subprocess.call("cat %s" % logfile, shell=True)
     return data
-
-#updateLog()
 
 def savePlot(pngOut):
     data = np.array(updateLog()).T
