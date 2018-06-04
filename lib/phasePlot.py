@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import matplotlib.pyplot as plt
 import numpy as np
 
 ctffind_txt = sys.argv[1]
@@ -49,9 +48,12 @@ def updateLog(debug=False):
     return data
 
 def savePlot(pngOut):
-    data = np.array(updateLog()).T
-    plt.plot(*data)
-    plt.savefig(pngOut)
+    import PyGnuplot as gp
+    gp.c("set terminal pngcairo")
+    gp.c("set output '%s'" % pngOut)
+    gp.c("set key off")
+    gp.c("set xtics 1")
+    gp.c("plot '%s' u 1:2 w lp" % logfile)
 
 if __name__ == "__main__":
     savePlot(pngOut)
