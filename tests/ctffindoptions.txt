@@ -21,5 +21,3 @@ yes
 no
 EOF
 
-../lib/phasePlot.py (basename)_output.txt
-rm (basename)_output.mrc (basename)_output_avrot.txt (basename)_output.txt

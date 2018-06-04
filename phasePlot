@@ -1,12 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 SCRIPTDIR="$(cd "$(dirname "$0")"; pwd -P)"
-echo $SCRIPTDIR
-if [ -n "$1" ]; then
+if [ "$1" ]; then
     echo "cd $1"
     cd "$1"
+fi
+
+if [ ! -e ctffindoptions.txt ]; then
+    echo "no ctffindoptions.txt file"
+    exit 1
+else
+    cleanup_command="$SCRIPTDIR/lib/phasePlot.py *output.txt; "
+    cleanup_command+="rm -f *_output.mrc *_output_avrot.txt *_output.txt"
+    #echo "$cleanup_command"
+    grep -q -F "$cleanup_command" ctffindoptions.txt \
+        || echo "$cleanup_command" >> ctffindoptions.txt
 fi
 
 $SCRIPTDIR/lib/moviewatcher/moviewatcher \
     -d done \
     -ext _ali.mrc \
-    -c $SCRIPTDIR/ctffindoptions
+    -c ctffindoptions.txt

@@ -56,4 +56,5 @@ def savePlot(pngOut):
     gp.c("plot '%s' u 1:2 w lp" % logfile)
 
 if __name__ == "__main__":
+    updateLog()
     savePlot(pngOut)
