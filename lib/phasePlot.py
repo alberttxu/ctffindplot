@@ -30,7 +30,7 @@ def readLog():
         return data
     except OSError: # empty log
         open(logfile, 'a').close()
-        return np.array()
+        return np.array([[]])
 
 def updateLog(debug=False):
     data = readLog().tolist()
