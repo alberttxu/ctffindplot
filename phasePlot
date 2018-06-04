@@ -11,7 +11,6 @@ if [ ! -e ctffindoptions.txt ]; then
 else
     cleanup_command="$SCRIPTDIR/lib/phasePlot.py *output.txt; "
     cleanup_command+="rm -f *_output.mrc *_output_avrot.txt *_output.txt"
-    #echo "$cleanup_command"
     grep -q -F "$cleanup_command" ctffindoptions.txt \
         || echo "$cleanup_command" >> ctffindoptions.txt
 fi
