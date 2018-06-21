@@ -10,13 +10,13 @@ if [ ! -e ctffindoptions.txt ]; then
     exit 1
 else
     ctffind_command=$(<ctffindoptions.txt)
-    plot_command="$SCRIPTDIR/lib/ctffindPlot.py *output.txt; "
+    plot_command="$SCRIPTDIR/../lib/ctffindPlot.py *output.txt; "
     cleanup_command="rm -f *_output.mrc *_output_avrot.txt *_output.txt"
     ctffind_command+=$'\n'"$plot_command"
     ctffind_command+=$'\n'"$cleanup_command"
 fi
 
-$SCRIPTDIR/lib/moviewatcher/moviewatcher \
+$SCRIPTDIR/../lib/moviewatcher/moviewatcher \
     -d done \
     -ext _ali.mrc \
     -c <(echo "$ctffind_command")
