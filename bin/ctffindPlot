@@ -1,9 +1,6 @@
 #!/bin/bash
 SCRIPTDIR="$(cd "$(dirname "$0")"; pwd -P)"
-if [ "$1" ]; then
-    echo "cd $1"
-    cd "$1"
-fi
+INPUTFILE=$1
 
 if [ ! -e ctffindoptions.txt ]; then
     echo "no ctffindoptions.txt file"
@@ -16,7 +13,13 @@ else
     ctffind_command+=$'\n'"$cleanup_command"
 fi
 
-$SCRIPTDIR/../lib/moviewatcher/moviewatcher \
-    -d done \
-    -ext _ali.mrc \
-    -c <(echo "$ctffind_command")
+if [ "$INPUTFILE" ]; then
+    ctffind_command=${ctffind_command//(filename)/$INPUTFILE}
+    ctffind_command=${ctffind_command//(basename)/${INPUTFILE%_ali.mrc}}
+    eval "$ctffind_command"
+else
+    $SCRIPTDIR/../lib/moviewatcher/moviewatcher \
+        -d done \
+        -ext _ali.mrc \
+        -c <(echo "$ctffind_command")
+fi
