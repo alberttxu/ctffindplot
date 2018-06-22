@@ -22,7 +22,7 @@ def parseCtffindOutput(outputTxt):
     values = [float(x) for x in lines[5].split()][1:]
     # convert phase shift to degrees
     values[3] = float('%.6f' % (values[3] * 180/3.14))
-    return (picNumber, *values)
+    return tuple([picNumber] + values)
 
 def readLog(log):
     try:
