@@ -6,20 +6,22 @@ if [ ! -e ctffindoptions.txt ]; then
     echo "no ctffindoptions.txt file"
     exit 1
 else
-    ctffind_command=$(< ctffindoptions.txt)
-    plot_command="$SCRIPTDIR/../lib/ctffindPlot.py *output.txt; "
-    cleanup_command="rm -f *_output_avrot.txt *_output.txt"
+    CTFFIND_COMMAND=$(< ctffindoptions.txt)
+    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py *output.txt); "
+    CLEANUP_COMMAND="rm -f *_output_avrot.txt *_output.txt"
 fi
 
 if [ "$INPUTFILE" ]; then
-    ctffind_command=${ctffind_command//(filename)/$INPUTFILE}
-    ctffind_command=${ctffind_command//(basename)/${INPUTFILE%_ali.mrc}}
-    eval "$ctffind_command"
-    eval "$plot_command"
-    eval "$cleanup_command"
+    BASENAME=${INPUTFILE%_ali.mrc}
+    OUTPUTFILE=${BASENAME}_output.txt
+    CTFFIND_COMMAND=${CTFFIND_COMMAND//(filename)/$INPUTFILE}
+    CTFFIND_COMMAND=${CTFFIND_COMMAND//(basename)/$BASENAME}
+    eval "$CTFFIND_COMMAND"
+    eval "$SCRIPTDIR/../lib/ctffindPlot.py $OUTPUTFILE; "
+    eval "$CLEANUP_COMMAND"
 else
     $SCRIPTDIR/../lib/moviewatcher/moviewatcher \
         -d done \
         -ext _ali.mrc \
-        -c <(echo "$ctffind_command"$'\n'"$plot_command"$'\n'"$cleanup_command")
+        -c <(echo "$CTFFIND_COMMAND"$'\n'"$PLOT_COMMAND"$'\n'"$CLEANUP_COMMAND")
 fi
