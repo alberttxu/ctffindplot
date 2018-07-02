@@ -7,7 +7,7 @@ if [ ! -e ctffindoptions.txt ]; then
     exit 1
 else
     CTFFIND_COMMAND=$(< ctffindoptions.txt)
-    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py *output.txt); "
+    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py *output.txt; "
     CLEANUP_COMMAND="rm -f *_output_avrot.txt *_output.txt"
 fi
 
