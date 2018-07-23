@@ -13,7 +13,7 @@ ctffindPlot generates and updates graphs of the results from ctffind. It watches
 
 2. Installing Python dependencies and ctffind4
 - Open Cygwin terminal
-- `bash -c "git clone --recursive https://github.com/alberttxu/ctffindPlot /usr/local/ctffindPlot; cd /usr/local/ctffindPlot; python3 -m pip install requirements.txt; cygwin_install_scripts/cygwinInstallCtffind4.sh; echo 'export PATH=/usr/local/ctffindPlot/bin:$PATH' >> ~/.bashrc; source ~/.bashrc"`
+- `bash -c "git clone --recursive https://github.com/alberttxu/ctffindPlot /usr/local/ctffindPlot; cd /usr/local/ctffindPlot; python3 -m pip install -r requirements.txt; cygwin_install_scripts/cygwinInstallCtffind4.sh; echo 'export PATH=/usr/local/ctffindPlot/bin:$PATH' >> ~/.bashrc; source ~/.bashrc"`
 
 3. Test installation
 - `cd /usr/local/ctffindPlot/tests`
