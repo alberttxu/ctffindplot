@@ -67,9 +67,9 @@ def savePlot(log, *columns, title='', ylabel=''):
 
 if __name__ == "__main__":
     updateLog(logfile, ctffindOutputTxt)
-    gp.c("set terminal pngcairo dashed enhanced size 1500,800")
+    gp.c("set terminal pngcairo dashed enhanced size 1500, 1200")
     gp.c("set output '%s'" % outputPlot)
-    gp.c("set multiplot layout 2,3")
+    gp.c("set multiplot layout 5,1")
     gp.c("set tmargin 2")
     savePlot(logfile, 2, 3, title='Defocus 1 and 2')
     savePlot(logfile, 4, title='Azimuth of Astigmatism')
