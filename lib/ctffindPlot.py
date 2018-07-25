@@ -60,10 +60,9 @@ def savePlot(log, *columns, title='', ylabel=''):
         gp.c("set ylabel '%s'" % ylabel)
 
     if len(columns) == 1:
-        gp.c("plot '{}' u 1:{} w lp".format(log, columns[0]))
+        gp.c("plot '{}' u 1:{}".format(log, columns[0]))
     elif len(columns) == 2:
-        gp.c("plot '{0}' u 1:{1} w lp, '{0}' u 1:{2} w lp"
-             .format(log, *columns))
+        gp.c("plot '{0}' u 1:{1}, '{0}' u 1:{2}".format(log, *columns))
 
 
 if __name__ == "__main__":
