@@ -53,7 +53,6 @@ def updateLog(log, outputTxt, debug=False):
 
 def savePlot(log, *columns, title='', ylabel=''):
     gp.c("set key off")
-    gp.c("set xtics 1")
     if title:
         gp.c("set title '%s'" % title)
     if ylabel:
