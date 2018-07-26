@@ -67,7 +67,7 @@ def savePlot(log, *columns, title='', ylabel=''):
 
 if __name__ == "__main__":
     updateLog(logfile, ctffindOutputTxt)
-    gp.c("set terminal pngcairo dashed enhanced size 1500, 1200")
+    gp.c("set terminal pngcairo dashed enhanced size 1500, 1500")
     gp.c("set output '%s'" % outputPlot)
     gp.c("set multiplot layout 5,1")
     gp.c("set tmargin 2")
