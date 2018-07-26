@@ -22,6 +22,6 @@ if [ "$INPUTFILE" ]; then
 else
     $SCRIPTDIR/../lib/moviewatcher/moviewatcher \
         -d done \
-        -ext _ali.mrc \
+        -ext .mrc \
         -c <(echo "$CTFFIND_COMMAND"$'\n'"$PLOT_COMMAND"$'\n'"$CLEANUP_COMMAND")
 fi
