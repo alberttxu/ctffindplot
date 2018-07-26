@@ -12,7 +12,7 @@ else
 fi
 
 if [ "$INPUTFILE" ]; then
-    BASENAME=${INPUTFILE%.mrc}
+    BASENAME=${INPUTFILE%_ali.mrc}
     OUTPUTFILE=${BASENAME}_output.txt
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(filename)/$INPUTFILE}
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(basename)/$BASENAME}

@@ -51,7 +51,7 @@ def updateLog(log, outputTxt, debug=False):
         subprocess.call("cat %s" % log, shell=True)
     return data
 
-def savePlot(log, *columns, title='', ylabel=''):
+def plot(log, *columns, title='', ylabel=''):
     gp.c("set key off")
     if title:
         gp.c("set title '%s'" % title)
@@ -59,6 +59,8 @@ def savePlot(log, *columns, title='', ylabel=''):
         gp.c("set ylabel '%s'" % ylabel)
 
     if len(columns) == 1:
+        if title == 'Resolution of Fit, Å':
+            gp.c("set yrange [0:20]")
         gp.c("plot '{}' u 1:{} w lp".format(log, columns[0]))
     elif len(columns) == 2:
         gp.c("plot '{0}' u 1:{1} w lp, '{0}' u 1:{2} w lp"
@@ -71,10 +73,10 @@ if __name__ == "__main__":
     gp.c("set output '%s'" % outputPlot)
     gp.c("set multiplot layout 5,1")
     gp.c("set tmargin 2")
-    savePlot(logfile, 2, 3, title='Defocus 1 and 2')
-    savePlot(logfile, 4, title='Azimuth of Astigmatism')
-    savePlot(logfile, 5, title='Phase Shift, Degrees')
-    savePlot(logfile, 6, title='Cross Correlation')
-    savePlot(logfile, 7, title='Resolution of Fit, Å')
+    plot(logfile, 2, 3, title='Defocus 1 and 2')
+    plot(logfile, 4, title='Azimuth of Astigmatism')
+    plot(logfile, 5, title='Phase Shift, Degrees')
+    plot(logfile, 6, title='Cross Correlation')
+    plot(logfile, 7, title='Resolution of Fit, Å')
     gp.c("unset multiplot")
 
