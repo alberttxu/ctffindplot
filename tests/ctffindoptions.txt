@@ -1,6 +1,6 @@
 ctffind << EOF
 (filename)
-(basename)_output.mrc
+(basename)_ali_output.mrc
 1.059
 300.0
 2.70

@@ -12,8 +12,8 @@ else
 fi
 
 if [ "$INPUTFILE" ]; then
-    BASENAME=${INPUTFILE%.mrc}
-    OUTPUTFILE=${BASENAME}_output.txt
+    BASENAME=${INPUTFILE%_ali.mrc}
+    OUTPUTFILE=${BASENAME}_ali_output.txt
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(filename)/$INPUTFILE}
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(basename)/$BASENAME}
     eval "$CTFFIND_COMMAND"
@@ -22,6 +22,6 @@ if [ "$INPUTFILE" ]; then
 else
     $SCRIPTDIR/../lib/moviewatcher/moviewatcher \
         -d done \
-        -ext .mrc \
+        -ext _ali.mrc \
         -c <(echo "$CTFFIND_COMMAND"$'\n'"$PLOT_COMMAND"$'\n'"$CLEANUP_COMMAND")
 fi
