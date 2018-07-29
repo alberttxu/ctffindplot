@@ -72,6 +72,7 @@ if __name__ == "__main__":
     gp.c("set terminal pngcairo dashed enhanced size 1500, 1500")
     gp.c("set output '%s'" % outputPlot)
     gp.c("set multiplot layout 5,1")
+    gp.c("set lmargin at screen 0.05")
     gp.c("set tmargin 2")
     plot(logfile, 2, 3, title='Defocus 1 and 2')
     plot(logfile, 4, title='Azimuth of Astigmatism')
