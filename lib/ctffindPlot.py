@@ -22,6 +22,9 @@ def parseCtffindOutput(outputTxt):
     values = [float(x) for x in lines[5].split()][1:]
     # convert phase shift to degrees
     values[3] = float('%.6f' % (values[3] * 180/3.14))
+    # convert defocus 1 and 2 to microns
+    values[0] = float('%.6f' % (values[0] / 10000))
+    values[1] = float('%.6f' % (values[1] / 10000))
     return tuple([picNumber] + values)
 
 def readLog(log):
