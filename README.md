@@ -33,7 +33,7 @@ First, have a ctffindoptions.txt file in the current working directory.
 
 ctffindPlot can either watch a directory for new \_ali.mrc files or can process a single image as an argument.
 - To watch a directory just type `ctffindPlot`
-  > Note: If multiple files are already present, they will not be processed in ascending order.
+  > Note: If multiple files are already present, they will be processed in ascending order.
 - For a single image, type `ctffindPlot (filename)`
 
 
