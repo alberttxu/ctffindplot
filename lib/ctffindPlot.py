@@ -25,6 +25,8 @@ def parseCtffindOutput(outputTxt):
     # convert defocus 1 and 2 to microns
     values[0] = float('%.6f' % (values[0] / 10000))
     values[1] = float('%.6f' % (values[1] / 10000))
+    # calculate size of difference between defocus values
+    values.insert(2, float('%.6f' % (abs(values[0]-values[1]) * 1000)))
     return tuple([picNumber] + values)
 
 def readLog(log):
@@ -78,9 +80,10 @@ if __name__ == "__main__":
     gp.c("set lmargin at screen 0.05")
     gp.c("set tmargin 2")
     plot(logfile, 2, 3, title='Defocus 1 and 2')
-    plot(logfile, 4, title='Azimuth of Astigmatism')
-    plot(logfile, 5, title='Phase Shift, Degrees')
-    plot(logfile, 6, title='Cross Correlation')
-    plot(logfile, 7, title='Resolution of Fit, Å')
+    plot(logfile, 4, title='abs(defocus1 - defocus2), nm')
+    plot(logfile, 5, title='Azimuth of Astigmatism')
+    plot(logfile, 6, title='Phase Shift, Degrees')
+    plot(logfile, 7, title='Cross Correlation')
+    plot(logfile, 8, title='Resolution of Fit, Å')
     gp.c("unset multiplot")
 
