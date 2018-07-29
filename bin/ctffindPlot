@@ -10,9 +10,7 @@ else
         mkdir ctf_fits
     fi
     CTFFIND_COMMAND=$(< ctffindoptions.txt)
-    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py *_output.txt; "
-    CLEANUP_COMMAND="rm -f *_output_avrot.txt *_output.txt; "
-    CLEANUP_COMMAND+="mv *_output.mrc ctf_fits"
+    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py (basename)_ali_output.txt; "
 fi
 
 if [ "$INPUTFILE" ]; then
@@ -20,10 +18,18 @@ if [ "$INPUTFILE" ]; then
     OUTPUTFILE=${BASENAME}_ali_output.txt
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(filename)/$INPUTFILE}
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(basename)/$BASENAME}
+    PLOT_COMMAND=${PLOT_COMMAND//(basename)/$BASENAME}
+    CLEANUP_COMMAND="rm -f ${BASENAME}_ali_output_avrot.txt ${BASENAME}_ali_output.txt; "
+    CLEANUP_COMMAND+="mv ${BASENAME}_ali_output.mrc ctf_fits"
+    echo "$CTFFIND_COMMAND"
+    echo "$SCRIPTDIR/../lib/ctffindPlot.py $OUTPUTFILE; "
+    echo "$CLEANUP_COMMAND"
     eval "$CTFFIND_COMMAND"
     eval "$SCRIPTDIR/../lib/ctffindPlot.py $OUTPUTFILE; "
     eval "$CLEANUP_COMMAND"
 else
+    CLEANUP_COMMAND="rm -f (basename)_ali_output_avrot.txt (basename)_ali_output.txt; "
+    CLEANUP_COMMAND+="mv (basename)_ali_output.mrc ctf_fits"
     $SCRIPTDIR/../lib/moviewatcher/moviewatcher \
         -d done \
         -ext _ali.mrc \
