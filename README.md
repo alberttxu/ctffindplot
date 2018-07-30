@@ -1,6 +1,6 @@
 # ctffindPlot
 
-ctffindPlot generates png graphs of the results from ctffind. It watches the current working directory for aligned mrc files of the format ...\_(picture#)\_ali.mrc. It runs them through ctffind using parameters from the ctffindoptions.txt file, updates a plot.png graph and a log.txt file, then moves the mrc file into a created "done" folder. It can also run once on a single image. It can also process a single mrc manually as an argument.
+ctffindPlot generates png graphs of the results from ctffind. It watches the current working directory for aligned mrc files of the format ...\_(picture#)\_ali.mrc. It runs them through ctffind using parameters from the ctffindoptions.txt file, updates a plot.png graph and a log.txt file, then moves the mrc file into a created "done" folder. It can also process a single mrc manually as an argument.
 
 ## Installation
 
