@@ -1,37 +1,70 @@
 #!/bin/bash
 SCRIPTDIR="$(cd "$(dirname "$0")"; pwd -P)"
-INPUTFILE=$1
 
 if [ ! -e ctffindoptions.txt ]; then
     echo "no ctffindoptions.txt file"
     exit 1
 else
-    if [ ! -d ctf_fits ]; then
-        mkdir ctf_fits
+    ALIGNED_DONE_DIR='done'
+    CTF_FITS_DIR='ctf_fits'
+    OUTPUTPNG='plot.png'
+    LOGFILE='log.txt'
+
+    while getopts ':ho:p:c:l:' opt; do
+      case "${opt}" in
+        h) echo "Usage: ctffindPlot [-h] [-o output_png] [-p aligned_mrc_dir] [-c ctf_fits_dir]" 1>&2
+           exit 1
+           ;;
+        p) ALIGNED_DONE_DIR="$OPTARG"
+           echo "aligned mrc directory: $ALIGNED_DONE_DIR"
+           ;;
+        c) CTF_FITS_DIR="$OPTARG"
+           echo "ctffind fitted mrc directory: $CTF_FITS_DIR"
+           ;;
+        o) OUTPUTPNG="$OPTARG"
+           echo "output png: $OUTPUTPNG"
+           ;;
+        l) LOGFILE="$OPTARG"
+           echo "logfile: $LOGFILE"
+           ;;
+        \?) echo "Usage: ctffindPlot [-h] [-o output_png] [-p aligned_mrc_dir] [-c ctf_fits_dir]" 1>&2
+           exit 1
+           ;;
+        :) echo "$OPTARG option is missing an argument"
+           exit 1
+           ;;
+      esac
+    done
+
+    shift "$((OPTIND-1))"
+    INPUTFILE="$1"
+    if [ ! -d $CTF_FITS_DIR ]; then
+        echo "creating $CTF_FITS_DIR"
+        mkdir $CTF_FITS_DIR
     fi
     CTFFIND_COMMAND=$(< ctffindoptions.txt)
-    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py (basename)_ali_output.txt; "
+    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py --input (basename)_ali_output.txt "
+    PLOT_COMMAND+="--output $OUTPUTPNG --log $LOGFILE; "
+    CLEANUP_COMMAND="rm -f (basename)_ali_output_avrot.txt (basename)_ali_output.txt; "
+    CLEANUP_COMMAND+="mv (basename)_ali_output.mrc $CTF_FITS_DIR"
 fi
 
-if [ "$INPUTFILE" ]; then
+if [ "$INPUTFILE" ]; then # process single file
     BASENAME=${INPUTFILE%_ali.mrc}
-    OUTPUTFILE=${BASENAME}_ali_output.txt
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(filename)/$INPUTFILE}
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(basename)/$BASENAME}
     PLOT_COMMAND=${PLOT_COMMAND//(basename)/$BASENAME}
-    CLEANUP_COMMAND="rm -f ${BASENAME}_ali_output_avrot.txt ${BASENAME}_ali_output.txt; "
-    CLEANUP_COMMAND+="mv ${BASENAME}_ali_output.mrc ctf_fits"
+    CLEANUP_COMMAND=${CLEANUP_COMMAND//(basename)/$BASENAME}
     echo "$CTFFIND_COMMAND"
-    echo "$SCRIPTDIR/../lib/ctffindPlot.py $OUTPUTFILE; "
+    echo "$PLOT_COMMAND"
     echo "$CLEANUP_COMMAND"
     eval "$CTFFIND_COMMAND"
-    eval "$SCRIPTDIR/../lib/ctffindPlot.py $OUTPUTFILE; "
+    eval "$PLOT_COMMAND"
     eval "$CLEANUP_COMMAND"
-else
-    CLEANUP_COMMAND="rm -f (basename)_ali_output_avrot.txt (basename)_ali_output.txt; "
-    CLEANUP_COMMAND+="mv (basename)_ali_output.mrc ctf_fits"
+
+else # watching mode
     $SCRIPTDIR/../lib/moviewatcher/moviewatcher \
-        -d done \
+        -d "$ALIGNED_DONE_DIR" \
         -ext _ali.mrc \
         -c <(echo "$CTFFIND_COMMAND"$'\n'"$PLOT_COMMAND"$'\n'"$CLEANUP_COMMAND")
 fi
