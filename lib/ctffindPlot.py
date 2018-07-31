@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 import sys
+import argparse
 import subprocess
 import numpy as np
 import PyGnuplot as gp
 
-ctffindOutputTxt = sys.argv[1]
-logfile = 'log.txt'
-outputPlot = 'plot.png'
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("-i", "--input", help="ctffind output txt", required=True)
+parser.add_argument("-l", "--log", help="log file", required=True)
+parser.add_argument("-o", "--output", help="png output file", required=True)
+flags = vars(parser.parse_args())
+
+ctffindOutputTxt = flags["input"]
+logfile = flags["log"]
+outputPlot = flags["output"]
+
 
 def parseCtffindOutput(outputTxt):
     try:
@@ -64,8 +72,6 @@ def plot(log, *columns, title='', ylabel=''):
         gp.c("set ylabel '%s'" % ylabel)
 
     if len(columns) == 1:
-        if title == 'Resolution of Fit, Å':
-            gp.c("set yrange [0:20]")
         gp.c("plot '{}' u 1:{} w lp".format(log, columns[0]))
     elif len(columns) == 2:
         gp.c("plot '{0}' u 1:{1} w lp, '{0}' u 1:{2} w lp"
@@ -76,7 +82,7 @@ if __name__ == "__main__":
     updateLog(logfile, ctffindOutputTxt)
     gp.c("set terminal pngcairo dashed enhanced size 1500, 1500")
     gp.c("set output '%s'" % outputPlot)
-    gp.c("set multiplot layout 5,1")
+    gp.c("set multiplot layout 6,1")
     gp.c("set lmargin at screen 0.05")
     gp.c("set tmargin 2")
     plot(logfile, 2, 3, title='Defocus 1 and 2')
@@ -84,6 +90,7 @@ if __name__ == "__main__":
     plot(logfile, 5, title='Azimuth of Astigmatism')
     plot(logfile, 6, title='Phase Shift, Degrees')
     plot(logfile, 7, title='Cross Correlation')
+    gp.c("set yrange [0:20]")
     plot(logfile, 8, title='Resolution of Fit, Å')
     gp.c("unset multiplot")
 
