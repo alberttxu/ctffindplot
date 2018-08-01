@@ -1,54 +1,56 @@
 #!/bin/bash
-SCRIPTDIR="$(cd "$(dirname "$0")"; pwd -P)"
+ALIGNED_DONE_DIR='done'
+CTF_FITS_DIR='ctf_fits'
+OUTPUTPNG='plot.png'
+LOGFILE='log.txt'
+CTFFINDPARAMS='ctffindoptions.txt'
 
-if [ ! -e ctffindoptions.txt ]; then
-    echo "no ctffindoptions.txt file"
-    exit 1
-else
-    ALIGNED_DONE_DIR='done'
-    CTF_FITS_DIR='ctf_fits'
-    OUTPUTPNG='plot.png'
-    LOGFILE='log.txt'
+USAGEHELP='Usage: ctffindPlot [-h] [-o output_png] [-p aligned_mrc_dir] '
+USAGEHELP+='[-t ctffind_params_file]  [-c ctf_fits_dir] [-l logfile]'
 
-    while getopts ':ho:p:c:l:' opt; do
-      case "${opt}" in
-        h) echo "Usage: ctffindPlot [-h] [-o output_png] [-p aligned_mrc_dir] [-c ctf_fits_dir]" 1>&2
-           exit 1
-           ;;
-        p) ALIGNED_DONE_DIR="$OPTARG"
-           echo "aligned mrc directory: $ALIGNED_DONE_DIR"
-           ;;
-        c) CTF_FITS_DIR="$OPTARG"
-           echo "ctffind fitted mrc directory: $CTF_FITS_DIR"
-           ;;
-        o) OUTPUTPNG="$OPTARG"
-           echo "output png: $OUTPUTPNG"
-           ;;
-        l) LOGFILE="$OPTARG"
-           echo "logfile: $LOGFILE"
-           ;;
-        \?) echo "Usage: ctffindPlot [-h] [-o output_png] [-p aligned_mrc_dir] [-c ctf_fits_dir]" 1>&2
-           exit 1
-           ;;
-        :) echo "$OPTARG option is missing an argument"
-           exit 1
-           ;;
-      esac
-    done
+while getopts ':ho:p:t:c:l:' opt; do
+  case "${opt}" in
+    h) echo "$USAGEHELP" 1>&2
+       exit 1
+       ;;
+    \?) echo "$USAGEHELP" 1>&2
+       exit 1
+       ;;
+    o) OUTPUTPNG="$OPTARG"
+       echo "output png: $OUTPUTPNG"
+       ;;
+    p) ALIGNED_DONE_DIR="$OPTARG"
+       echo "aligned mrc directory: $ALIGNED_DONE_DIR"
+       ;;
+    t) CTFFINDPARAMS="$OPTARG"
+       echo "ctffind parameters file: $CTFFINDPARAMS"
+       ;;
+    c) CTF_FITS_DIR="$OPTARG"
+       echo "ctffind fitted mrc directory: $CTF_FITS_DIR"
+       ;;
+    l) LOGFILE="$OPTARG"
+       echo "logfile: $LOGFILE"
+       ;;
+    :) echo "$OPTARG option is missing an argument"
+       exit 1
+       ;;
+  esac
+done
 
-    shift "$((OPTIND-1))"
-    INPUTFILE="$1"
-    if [ ! -d $CTF_FITS_DIR ]; then
-        echo "creating $CTF_FITS_DIR"
-        mkdir $CTF_FITS_DIR
-    fi
-    CTFFIND_COMMAND=$(< ctffindoptions.txt)
-    PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py --input (basename)_ali_output.txt "
-    PLOT_COMMAND+="--output $OUTPUTPNG --log $LOGFILE; "
-    CLEANUP_COMMAND="rm -f (basename)_ali_output_avrot.txt (basename)_ali_output.txt; "
-    CLEANUP_COMMAND+="mv (basename)_ali_output.mrc $CTF_FITS_DIR"
+if [ ! -d $CTF_FITS_DIR ]; then
+    echo "creating $CTF_FITS_DIR"
+    mkdir $CTF_FITS_DIR
 fi
 
+SCRIPTDIR="$(cd "$(dirname "$0")"; pwd -P)"
+CTFFIND_COMMAND=$(< ctffindoptions.txt)
+PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py --input (basename)_ali_output.txt "
+PLOT_COMMAND+="--output $OUTPUTPNG --log $LOGFILE; "
+CLEANUP_COMMAND="rm -f (basename)_ali_output_avrot.txt (basename)_ali_output.txt; "
+CLEANUP_COMMAND+="mv (basename)_ali_output.mrc $CTF_FITS_DIR"
+
+shift "$((OPTIND-1))"
+INPUTFILE="$1"
 if [ "$INPUTFILE" ]; then # process single file
     BASENAME=${INPUTFILE%_ali.mrc}
     CTFFIND_COMMAND=${CTFFIND_COMMAND//(filename)/$INPUTFILE}
