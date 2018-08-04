@@ -1,8 +1,8 @@
 #!/bin/bash
-ALIGNED_DONE_DIR='done'
+ALIGNED_DONE_DIR='alignedMRC'
 CTF_FITS_DIR='ctf_fits'
-OUTPUTPNG='plot.png'
-LOGFILE='log.txt'
+OUTPUTPNG='ctf_plot.png'
+LOGFILE='ctf_log.txt'
 CTFFINDPARAMS='ctffindoptions.txt'
 
 USAGEHELP='Usage: ctffindPlot [-h] [-o output_png] [-p aligned_mrc_dir] '
