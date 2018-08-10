@@ -1,6 +1,6 @@
 # ctffindPlot
 
-ctffindPlot generates png graphs of the results from ctffind. It watches the current working directory for aligned mrc files of the format `*_(picture#)_ali.mrc`. It runs them through ctffind using parameters from the ctffindoptions.txt file, updates a plot.png graph and a log.txt file, then moves the mrc file into a created "done" folder. It can also process a single mrc manually as an argument.
+ctffindPlot generates png graphs of the results from ctffind. It watches the current working directory for aligned mrc files of the format `*_(picture#)_ali.mrc`. It runs them through ctffind using a parameters file, updates a png graph and a log file, then moves the mrc file into a finished folder. It can also process a single mrc manually as an argument.
 
 ## Installation
 
@@ -27,7 +27,7 @@ ctffindPlot generates png graphs of the results from ctffind. It watches the cur
 3. Test installation
 - `cd /usr/local/ctffindPlot/tests`
 - `./fullTest.sh`
-  > This downloads several aligned mrc example files, feeds them into ctffind4, and updates a plot.png graph of the ctffind results. The filename format is *\_(picture #)\_ali.mrc
+  > This downloads 4 example aligned mrc files, and runs ctffindPlot in watching mode using default values.
 
 ### Linux (Centos 7)
 1. Installing ctffind and python3 and dependencies
