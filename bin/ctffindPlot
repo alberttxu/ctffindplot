@@ -43,7 +43,7 @@ if [ ! -d $CTF_FITS_DIR ]; then
 fi
 
 SCRIPTDIR="$(cd "$(dirname "$0")"; pwd -P)"
-CTFFIND_COMMAND=$(< ctffindoptions.txt)
+CTFFIND_COMMAND=$(< "$CTFFINDPARAMS")
 PLOT_COMMAND="$SCRIPTDIR/../lib/ctffindPlot.py --input (basename)_ali_output.txt "
 PLOT_COMMAND+="--output $OUTPUTPNG --log $LOGFILE; "
 CLEANUP_COMMAND="rm -f (basename)_ali_output_avrot.txt (basename)_ali_output.txt; "
