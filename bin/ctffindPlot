@@ -37,6 +37,11 @@ while getopts ':ho:p:t:c:l:' opt; do
   esac
 done
 
+if [ ! -f $CTFFINDPARAMS ]; then
+    echo "$CTFFINDPARAMS not found"
+    exit
+fi
+
 if [ ! -d $CTF_FITS_DIR ]; then
     echo "creating $CTF_FITS_DIR"
     mkdir $CTF_FITS_DIR
