@@ -1,0 +1,19 @@
+ctffind << EOF
+(filename)
+(basename)_ali_output.mrc
+1.169
+200.0
+2.70
+0.07
+512
+30.0
+5.0
+5000.0
+50000.0
+100.0
+no
+no
+no
+no
+no
+EOF
