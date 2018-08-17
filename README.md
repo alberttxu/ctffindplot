@@ -37,7 +37,7 @@ ctffindPlot generates png graphs of the results from ctffind. It watches the cur
 	> On Centos python3 is named with a subversion (i.e. python34, python3.4, python36, python3.6, etc). You will need to point to it with a symlink named python3.
 	 - `sudo bash -c "yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; yum install -y git gnuplot python36 python36-setuptools; easy_install-3.6 pip; ln -s /usr/bin/python36 /usr/bin/python3"`
 - Download this repository and install dependencies
-	- `sudo bash -c "git clone --recursive https://github.com/alberttxu/ctffindPlot.git /usr/local/ctffindPlot; cd /usr/local/ctffindPlot; python3 -m pip install --user -r requirements.txt"`
+	- `sudo bash -c "git clone --recursive https://github.com/alberttxu/ctffindPlot.git /usr/local/ctffindPlot"; cd /usr/local/ctffindPlot; python3 -m pip install --user -r requirements.txt`
 - Add to ctffindPlot to PATH
 - `echo 'export PATH=$PATH:/usr/local/ctffindPlot/bin' >> ~/.bashrc; source ~/.bashrc`
 
