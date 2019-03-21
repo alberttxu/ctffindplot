@@ -71,6 +71,7 @@ if [ "$INPUTFILE" ]; then # process single file
 
 else # watching mode
     $SCRIPTDIR/../lib/moviewatcher/moviewatcher \
+        --no-last \
         -d "$ALIGNED_DONE_DIR" \
         -ext _ali.mrc \
         -c <(echo "$CTFFIND_COMMAND"$'\n'"$PLOT_COMMAND"$'\n'"$CLEANUP_COMMAND")
