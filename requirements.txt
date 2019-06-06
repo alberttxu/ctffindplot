@@ -1,5 +1,0 @@
-argh==0.26.2
-numpy==1.14.3
-pathtools==0.1.2
-PyGnuplot==0.11.16
-pyyaml>=4.2b1
