@@ -3,9 +3,9 @@ def main():
     import os
     import os.path
     import shutil
-    from plot import plot_ctffind_output
-    from run import ctffind
-    from watch import isReady
+    from ctffindPlot.plot import plot_ctffind_output
+    from ctffindPlot.run import ctffind
+    from ctffindPlot.watch import isReady
 
     if shutil.which('ctffind') == None:
         print("can't find ctffind")
