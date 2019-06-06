@@ -31,7 +31,10 @@ def subplot(log, *columns, title='', ylabel=''):
         gp.c("set ylabel '%s'" % ylabel)
 
     if len(columns) == 1:
-        gp.c("plot '{}' u 1:{} w lp".format(log, columns[0]))
+        if columns[0] == 8:
+            gp.c("plot [ ] [0:10] '{}' u 1:{} w lp".format(log, columns[0]))
+        else:
+            gp.c("plot '{}' u 1:{} w lp".format(log, columns[0]))
     elif len(columns) == 2:
         gp.c("plot '{0}' u 1:{1} w lp, '{0}' u 1:{2} w lp"
              .format(log, *columns))
