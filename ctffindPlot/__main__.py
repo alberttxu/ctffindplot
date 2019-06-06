@@ -3,6 +3,7 @@ def main():
     import os
     import os.path
     import shutil
+    import time
     from ctffindPlot.plot import plot_ctffind_output
     from ctffindPlot.run import ctffind, cleanup
     from ctffindPlot.watch import isReady
@@ -35,14 +36,20 @@ def main():
         os.mkdir(args.aligned_mrc_dir)
 
     while True:
-        aliMrcFiles= sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))
-        for f in aliMrcFiles:
-            if isReady(f):
-                ctffind(f, args.ctffind_params_file)
-                root, ext = os.path.splitext(f)
-                ctffindOutputTxt = root + '_output.txt'
-                plot_ctffind_output(args.logfile, ctffindOutputTxt, args.output)
-                cleanup(f, args.aligned_mrc_dir, args.ctf_fits_dir)
+        try:
+            aliMrcFiles= sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))
+            for f in aliMrcFiles:
+                if isReady(f):
+                    start = time.time()
+                    ctffind(f, args.ctffind_params_file)
+                    root, ext = os.path.splitext(f)
+                    ctffindOutputTxt = root + '_output.txt'
+                    plot_ctffind_output(args.logfile, ctffindOutputTxt, args.output)
+                    cleanup(f, args.aligned_mrc_dir, args.ctf_fits_dir)
+                    end = time.time()
+                    print("processed in %.2f sec" % (end - start))
+        except KeyboardInterrupt:
+            return
 
 
 if __name__ == '__main__':
