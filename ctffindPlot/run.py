@@ -8,7 +8,7 @@ def ctffind(alimrc, params_file):
     before_ali = alimrc[:alimrc.rfind('_ali.mrc')]
     ctffind_command = ctffind_command.replace('(filename)', alimrc)
     ctffind_command = ctffind_command.replace('(basename)', before_ali)
-    subprocess(ctffind_command, shell=True)
+    subprocess.run(ctffind_command, shell=True)
 
 def cleanup(alimrc, ali_done_dir, ctf_fits_dir):
     before_ali = alimrc[:alimrc.rfind('_ali.mrc')]
