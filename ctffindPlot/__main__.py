@@ -4,7 +4,7 @@ def main():
     import os.path
     import shutil
     from ctffindPlot.plot import plot_ctffind_output
-    from ctffindPlot.run import ctffind
+    from ctffindPlot.run import ctffind, cleanup
     from ctffindPlot.watch import isReady
 
     if shutil.which('ctffind') == None:
@@ -20,7 +20,7 @@ def main():
     parser.add_argument('-t', '--ctffind_params_file', default='ctffindoptions.txt')
     parser.add_argument('-c', '--ctf_fits_dir', default='ctffind_fits')
     parser.add_argument('-l', '--logfile', default='ctffindPlot_log.txt')
-    args.parser.parse_args()
+    args = parser.parse_args()
 
     if not os.path.isfile(args.ctffind_params_file):
         print("%s not found" % args.ctffind_params_file)
@@ -29,6 +29,10 @@ def main():
     if not os.path.isdir(args.ctf_fits_dir):
         print("creating %s" % args.ctf_fits_dir)
         os.mkdir(args.ctf_fits_dir)
+
+    if not os.path.isdir(args.aligned_mrc_dir):
+        print("creating %s" % args.aligned_mrc_dir)
+        os.mkdir(args.aligned_mrc_dir)
 
     while True:
         aliMrcFiles= sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))

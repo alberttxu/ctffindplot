@@ -1,4 +1,5 @@
 from os.path import getsize
+import time
 
 def isReady(filename):
     timeout = 10
