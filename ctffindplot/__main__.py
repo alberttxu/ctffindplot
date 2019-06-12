@@ -8,19 +8,45 @@ def main():
     from ctffindplot.run import ctffind, cleanup
     from ctffindplot.watch import isReady
 
-    if shutil.which('ctffind') == None:
+    if shutil.which("ctffind") == None:
         print("can't find ctffind")
         exit()
-    if shutil.which('gnuplot') == None:
+    if shutil.which("gnuplot") == None:
         print("can't find gnuplot")
         exit()
 
-    parser = argparse.ArgumentParser(description='')
-    parser.add_argument('-o', '--output', default='ctffindplot_plot.png')
-    parser.add_argument('-p', '--aligned_mrc_dir', default='alignedMRC')
-    parser.add_argument('-t', '--ctffind_params_file', default='ctffindoptions.txt')
-    parser.add_argument('-c', '--ctf_fits_dir', default='ctffind_fits')
-    parser.add_argument('-l', '--logfile', default='ctffindplot_log.txt')
+    parser = argparse.ArgumentParser(description="plot summary results from ctffind")
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="output png file (default = ctffindplot_plot.png)",
+        default="ctffindplot_plot.png",
+    )
+    parser.add_argument(
+        "-p",
+        "--aligned_mrc_dir",
+        help="destination for processed mrc files (default = alignedMRC)",
+        default="alignedMRC",
+    )
+    parser.add_argument(
+        "-t",
+        "--ctffind_params_file",
+        help="ctffind parameters file (default = ctffindoptions.txt)",
+        default="ctffindoptions.txt",
+    )
+    parser.add_argument(
+        "-c",
+        "--ctf_fits_dir",
+        help="destination for ctffind diagnostic images (default = ctffind_fits)",
+        default="ctffind_fits",
+    )
+    parser.add_argument(
+        "-l",
+        "--logfile",
+        help="data file for plotting (default = ctffindplot_log.txt)",
+        default="ctffindplot_log.txt",
+    )
+
     args = parser.parse_args()
 
     output = os.path.abspath(args.output)
@@ -64,13 +90,14 @@ def main():
 
     while True:
         try:
-            aliMrcFiles= sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))[:-1]
+            aliMrcFiles = sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))
+            aliMrcFiles.pop()
             for f in aliMrcFiles:
                 if isReady(f):
                     start = time.time()
                     ctffind(f, params_file)
                     root, ext = os.path.splitext(f)
-                    ctffindOutputTxt = root + '_output.txt'
+                    ctffindOutputTxt = root + "_output.txt"
                     plot_ctffind_output(logfile, ctffindOutputTxt, output)
                     cleanup(f, aligned_dir, ctf_fits_dir)
                     end = time.time()
@@ -79,5 +106,5 @@ def main():
             return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
