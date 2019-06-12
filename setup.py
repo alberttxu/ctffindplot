@@ -1,9 +1,9 @@
 import setuptools
 
-setuptools.setup(name='ctffindPlot',
+setuptools.setup(name='ctffindplot',
         version='0.0.1',
         description='Sequentially plot ctffind results from aligned micrographs',
-        url='https://github.com/alberttxu/ctffindPlot',
+        url='https://github.com/alberttxu/ctffindplot',
         author='Albert Xu',
         author_email='albert.t.xu@gmail.com',
         license='MIT',
@@ -13,7 +13,7 @@ setuptools.setup(name='ctffindPlot',
             ],
         entry_points={
             'console_scripts': [
-                'ctffindPlot = ctffindPlot.__main__:main'
+                'ctffindplot = ctffindplot.__main__:main'
                 ]
             }
         )

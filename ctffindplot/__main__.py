@@ -4,9 +4,9 @@ def main():
     import os.path
     import shutil
     import time
-    from ctffindPlot.plot import plot_ctffind_output
-    from ctffindPlot.run import ctffind, cleanup
-    from ctffindPlot.watch import isReady
+    from ctffindplot.plot import plot_ctffind_output
+    from ctffindplot.run import ctffind, cleanup
+    from ctffindplot.watch import isReady
 
     if shutil.which('ctffind') == None:
         print("can't find ctffind")
@@ -16,11 +16,11 @@ def main():
         exit()
 
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('-o', '--output', default='ctffind_plot.png')
+    parser.add_argument('-o', '--output', default='ctffindplot_plot.png')
     parser.add_argument('-p', '--aligned_mrc_dir', default='alignedMRC')
     parser.add_argument('-t', '--ctffind_params_file', default='ctffindoptions.txt')
     parser.add_argument('-c', '--ctf_fits_dir', default='ctffind_fits')
-    parser.add_argument('-l', '--logfile', default='ctffindPlot_log.txt')
+    parser.add_argument('-l', '--logfile', default='ctffindplot_log.txt')
     args = parser.parse_args()
 
     output = os.path.abspath(args.output)
