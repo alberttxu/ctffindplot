@@ -8,8 +8,7 @@ curl,^
 gnuplot,^
 pkg-config,^
 python3-devel,^
-python3-pip,^
-python3-tkinter,^
+python36-pip,^
 make,^
 gcc-core,^
 gcc-g++,^
