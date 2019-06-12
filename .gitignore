@@ -3,6 +3,9 @@ Dockerfile
 .vagrant/
 Vagrantfile
 env/
+build/
+dist/
+*.egg-info/
 tests/done/
 tests/*.mrc
 tests/log.txt
