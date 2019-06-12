@@ -51,6 +51,6 @@ def plot_ctffind_output(log, ctffindOutputTxt, outputPlot):
     subplot(log, 5, title='Azimuth of Astigmatism')
     subplot(log, 6, title='Phase Shift, Degrees')
     subplot(log, 7, title='Cross Correlation')
-    subplot(log, 8, title='Resolution of Fit, Å')
+    subplot(log, 8, title='Resolution of Fit, A')
     gp.c("unset multiplot")
 

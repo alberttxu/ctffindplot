@@ -1,4 +1,5 @@
 scratch/
+Dockerfile
 .vagrant/
 Vagrantfile
 env/
