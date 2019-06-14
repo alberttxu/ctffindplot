@@ -8,13 +8,6 @@ def main():
     from ctffindplot.run import ctffind, cleanup
     from ctffindplot.watch import isReady
 
-    if shutil.which("ctffind") == None:
-        print("can't find ctffind")
-        exit()
-    if shutil.which("gnuplot") == None:
-        print("can't find gnuplot")
-        exit()
-
     parser = argparse.ArgumentParser(description="plot summary results from ctffind")
     parser.add_argument(
         "-o",
@@ -56,6 +49,13 @@ def main():
     logfile = os.path.abspath(args.logfile)
 
     # error checking
+    if shutil.which("ctffind") == None:
+        print("can't find ctffind")
+        exit()
+    if shutil.which("gnuplot") == None:
+        print("can't find gnuplot")
+        exit()
+
     if os.path.isdir(output):
         print("invalid output file: %s is a directory" % output)
         exit()
