@@ -1,89 +1,71 @@
-# ctffindPlot
 
-ctffindPlot generates png graphs of the results from ctffind. It watches the current working directory for aligned mrc files of the format `*_(picture#)_ali.mrc`. It runs them through ctffind using a parameters file, updates a png graph and a log file, then moves the mrc file into a finished folder. It can also process a single mrc manually as an argument.
+# ctffindplot
+
+ctffindplot generates a real-time graph of the summary results of ctffind4. It watches the current directory for files ending in `ali.mrc`, runs ctffind using a parameters file, creates a png, then moves the original mrc file into a different folder.
+
+## Requires
+- ctffind4
+- python3
+- gnuplot
+- curl (for installing ctffind4)
 
 ## Installation
 
-### Cygwin
-1. Installing Cygwin with required dependencies
-- Download the Cygwin [setup-x86_64.exe](https://cygwin.com/setup-x86_64.exe)
-- Download this repository's [cygwin_install_script.bat](https://cdn.rawgit.com/alberttxu/ctffindPlot/d9ec4e9f/cygwin_install_scripts/cygwinInstallScript.bat)
+### Linux
+
+1. Install ctffind4 if not already installed
+
+`sudo sh -c 'curl http://grigoriefflab.janelia.org/sites/default/files/ctffind-4.1.13-linux64.tar.gz | tar xvz -C /usr/local/'`
+
+2. Install ctffindplot
+
+Ubuntu
+
+`sudo apt update && sudo apt install -y curl gnuplot python3-pip && sudo python3 -m pip install ctffindplot`
+
+Centos
+
+`sudo yum install -y --enablerepo=extras epel-release && sudo yum install -y python36-pip gnuplot curl && sudo python36 -m pip install ctffindplot`
+
+### Windows (Cygwin)
+
+1. Install Cygwin with required packages
+- Download the Cygwin [setup-x86_64.exe](https://cygwin.com/setup-x86_64.exe) installer
+- Download this repository's [cygwin_install_script.bat](https://github.com/alberttxu/ctffindplot/raw/master/cygwin_install_scripts/cygwinInstallScript.bat) (right-click, save link as)
   into the same folder.
 - Double click the cygwinInstallScript.bat to start the installer. Continue clicking next until the installation is finished.
-  > If you are on Windows 10 and get a popup error: "This app can't run on your PC. To find a version for your PC, check with the software publisher", this is a security warning. You can go into Settings > Updates and Security > For developers, and under Use developer features, select Sideload apps.
 
-2. Installing dependencies and ctffind4
+2. Install ctffind4
 - Open Cygwin terminal
-- Download this repository and install dependencies
-	- `git clone --recursive https://github.com/alberttxu/ctffindPlot /usr/local/ctffindPlot; cd /usr/local/ctffindPlot; python3 -m pip install -r requirements.txt;`
-- Install ctffind
-    - `cd /usr/local/ctffindPlot; cygwin_install_scripts/cygwinInstallCtffind4.sh;`
-- Add to ctffindPlot to PATH
-	- `echo 'export PATH=/usr/local/ctffindPlot/bin:$PATH' >> ~/.bashrc; source ~/.bashrc`
+- `curl http://grigoriefflab.janelia.org/sites/default/files/ctffind-4.1.10.tar.gz | tar xz && cd ctffind-4.1.10 && ./configure --with-wx-config=wx-config-3.0 && make && make install`
 
-3. TLDR
-`bash -c "git clone --recursive https://github.com/alberttxu/ctffindPlot /usr/local/ctffindPlot; cd /usr/local/ctffindPlot; python3 -m pip install -r requirements.txt; cygwin_install_scripts/cygwinInstallCtffind4.sh; echo 'export PATH=/usr/local/ctffindPlot/bin:$PATH' >> ~/.bashrc; source ~/.bashrc"`
+3. Install ctffindplot
+- `python3 -m pip install ctffindplot`
 
-3. Test installation
-- `cd /usr/local/ctffindPlot/tests`
-- `./fullTest.sh`
-  > This downloads 4 example aligned mrc files, and runs ctffindPlot in watching mode using default values.
-
-### Linux (Centos 7)
-1. Installing ctffind and python3 and dependencies
-- ctffind
-	- `sudo bash -c "curl http://grigoriefflab.janelia.org/sites/default/files/ctffind-4.1.10-linux64.tar.gz | tar xvz -C /usr/local/"`
-- python3
-	> On Centos python3 is named with a subversion (i.e. python34, python3.4, python36, python3.6, etc). You will need to point to it with a symlink named python3.
-	 - `sudo bash -c "yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; yum install -y git gnuplot python36 python36-setuptools; easy_install-3.6 pip; ln -s /usr/bin/python36 /usr/bin/python3"`
-- Download this repository and install dependencies
-	- `sudo bash -c "git clone --recursive https://github.com/alberttxu/ctffindPlot.git /usr/local/ctffindPlot"; cd /usr/local/ctffindPlot; python3 -m pip install --user -r requirements.txt`
-- Add to ctffindPlot to PATH
-- `echo 'export PATH=$PATH:/usr/local/ctffindPlot/bin' >> ~/.bashrc; source ~/.bashrc`
-
-2. TLDR
-`sudo bash -c 'yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm; curl http://grigoriefflab.janelia.org/sites/default/files/ctffind-4.1.10-linux64.tar.gz | tar xvz -C /usr/local/; yum install -y git gnuplot python36 python36-setuptools; easy_install-3.6 pip; ln -s /usr/bin/python36 /usr/bin/python3; git clone --recursive https://github.com/alberttxu/ctffindPlot.git /usr/local/ctffindPlot'; cd /usr/local/ctffindPlot; python3 -m pip install --user -r requirements.txt; echo 'export PATH=$PATH:/usr/local/ctffindPlot/bin' >> ~/.bashrc; source ~/.bashrc`
-
-5. Test (this clones another copy of the repository to home because of file permissions in /usr/local. You can remove this folder afterwards.
-`cd ~; git clone --recursive https://github.com/alberttxu/ctffindPlot.git; cd ctffindPlot/tests; ./fullTest.sh`
 
 ## Usage
 ```
-ctffindPlot [-h]
-              Print shortened usage prompt.
-            [-o output_png]
-              Name of output png graph. (default = ctf_plot.png)
-            [-p aligned_mrc_dir]
-              (only applies to watching mode)
-              Directory that processed files get moved to. (default = alignedMRC)
-            [-t ctffind_params_file]
-              Name of the parameters file for ctffind. (default = ctffindoptions.txt)
-            [-c ctf_fits_dir]
-              Directory to place ctffind's fitted mrcs. (default = ctf_fits)
-            [-l logfile]
-              Name of the log file used by this program to record data. (default = ctf_log.txt)
-              This file is a space separated csv.
-            [aligned_mrc]
-              (only applies to processing a single file)
-              Name of the aligned mrc file to be processed.
-              This file is not moved into the aligned mrc directory.
+usage: ctffindplot [-h] [-o OUTPUT] [-p ALIGNED_MRC_DIR]
+                   [-t CTFFIND_PARAMS_FILE] [-c CTF_FITS_DIR] [-l LOGFILE]
+
+plot summary results from ctffind
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o OUTPUT, --output OUTPUT
+                        output png file (default = ctffindplot_plot.png)
+  -p ALIGNED_MRC_DIR, --aligned_mrc_dir ALIGNED_MRC_DIR
+                        destination for processed mrc files (default =
+                        alignedMRC)
+  -t CTFFIND_PARAMS_FILE, --ctffind_params_file CTFFIND_PARAMS_FILE
+                        ctffind parameters file (default = ctffindoptions.txt)
+  -c CTF_FITS_DIR, --ctf_fits_dir CTF_FITS_DIR
+                        destination for ctffind diagnostic images (default =
+                        ctffind_fits)
+  -l LOGFILE, --logfile LOGFILE
+                        data file for plotting (default = ctffindplot_log.txt)
 ```
 
 First, have a ctffindoptions.txt file in the current working directory, or use the -t flag to specify a filename.
-
-ctffindPlot can either watch a directory for new \_ali.mrc files or can process a single image as an argument.
-- To watch a directory just type `ctffindPlot` without specifying an mrc file.
-  > If multiple files are already present, they will be processed in ascending order.
-- For a single image, type `ctffindPlot (filename)`
-  > Using the p flag does not apply for single images. (I.e., the file will not be moved to the processed directory.)
-
-### Using with framewatcher
-If you are using framewatcher from the IMOD suite to do alignments, ctffindPlot can be run using the after flag. `framewatcher -pr processedTiffs -after 'ctffindPlot %{outputFile}’`
-
-
-## Dependencies
-- python3
-- ctffind4
-- gnuplot
-  > If you are running Centos 6, the default yum repositories have outdated versions of gnuplot (required) and curl (optional, version with -j flag is needed to run the fullTest script), so you will have to manually install them.
-
+Next, type `ctffindplot` and ...ali.mrc files will be fed through ctffind and a png graph will be created and continuously updated.
+> The last `ali.mrc` file in sorted alphabetical order will not be processed since it may be in use by other real-time programs like IMOD's framewatcher.
