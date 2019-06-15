@@ -31,7 +31,7 @@ Centos
 
 1. Install Cygwin with required packages
 - Download the Cygwin [setup-x86_64.exe](https://cygwin.com/setup-x86_64.exe) installer
-- Download this repository's [cygwin_install_script.bat](https://github.com/alberttxu/ctffindplot/raw/master/cygwin_install_scripts/cygwinInstallScript.bat) (right-click, save link as)
+- Download this repository's [cygwin_install_script.bat](https://raw.githack.com/alberttxu/ctffindplot/master/cygwin_install_scripts/cygwinInstallScript.bat)
   into the same folder.
 - Double click the cygwinInstallScript.bat to start the installer. Continue clicking next until the installation is finished.
 
