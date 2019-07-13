@@ -90,7 +90,7 @@ def main():
 
     while True:
         try:
-            aliMrcFiles = sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))[:-1]
+            aliMrcFiles = sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))[:-4]
             for f in aliMrcFiles:
                 if isReady(f):
                     start = time.time()

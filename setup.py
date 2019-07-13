@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="ctffindplot",
-    version="0.0.2",
+    version="0.0.4",
     description="Sequentially plot ctffind results from aligned micrographs",
     url="https://github.com/alberttxu/ctffindplot",
     author="Albert Xu",
