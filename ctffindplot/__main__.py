@@ -96,8 +96,8 @@ def main():
     )
     dash_app_server.start()
 
-    while True:
-        try:
+    try:
+        while True:
             aliMrcFiles = sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))[:-4]
             for f in aliMrcFiles:
                 if isReady(f):
@@ -109,9 +109,11 @@ def main():
                     cleanup(f, aligned_dir, ctf_fits_dir)
                     end = time.time()
                     print("processed in %.2f sec" % (end - start))
-        except KeyboardInterrupt:
-            dash_app_server.terminate()
-            return
+    except KeyboardInterrupt:
+        print('terminate')
+    finally:
+        dash_app_server.terminate()
+        dash_app_server.join()
 
 
 if __name__ == "__main__":
