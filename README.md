@@ -15,7 +15,7 @@ ctffindplot generates a real-time graph of the summary results of ctffind4. It w
 
 1. Install ctffind4 if not already installed
 
-`sudo sh -c 'curl http://grigoriefflab.janelia.org/sites/default/files/ctffind-4.1.13-linux64.tar.gz | tar xvz -C /usr/local/'`
+`sudo sh -c 'curl http://grigoriefflab.umassmed.edu/sites/default/files/ctffind-4.1.10-linux64.tar.gz | tar xvz -C /usr/local/'`
 
 2. Install ctffindplot
 
@@ -37,7 +37,7 @@ Centos
 
 2. Install ctffind4
 - Open Cygwin terminal
-- `curl http://grigoriefflab.janelia.org/sites/default/files/ctffind-4.1.10.tar.gz | tar xz && cd ctffind-4.1.10 && ./configure --with-wx-config=wx-config-3.0 && make && make install`
+- `curl http://grigoriefflab.umassmed.edu/sites/default/files/ctffind-4.1.10.tar.gz | tar xz && cd ctffind-4.1.10 && ./configure --with-wx-config=wx-config-3.0 && make && make install`
 
 3. Install ctffindplot
 - `python3 -m pip install ctffindplot`
