@@ -1,9 +1,9 @@
 def main():
     import argparse
+    import multiprocessing
     import os
     import os.path
     import shutil
-    import threading
     import time
 
     from ctffindplot.plot import plot_ctffind_output
@@ -91,10 +91,10 @@ def main():
         print("creating %s" % aligned_dir)
         os.mkdir(aligned_dir)
 
-    dash_app_thread = threading.Thread(
+    dash_app_server = multiprocessing.Process(
         target=start_dash_app, args=[logfile], daemon=True
     )
-    dash_app_thread.start()
+    dash_app_server.start()
 
     while True:
         try:
@@ -110,6 +110,7 @@ def main():
                     end = time.time()
                     print("processed in %.2f sec" % (end - start))
         except KeyboardInterrupt:
+            dash_app_server.terminate()
             return
 
 
