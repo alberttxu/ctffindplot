@@ -3,10 +3,13 @@ def main():
     import os
     import os.path
     import shutil
+    import threading
     import time
+
     from ctffindplot.plot import plot_ctffind_output
     from ctffindplot.run import ctffind, cleanup
     from ctffindplot.watch import isReady
+    from ctffindplot.dash_app import start_dash_app
 
     parser = argparse.ArgumentParser(description="plot summary results from ctffind")
     parser.add_argument(
@@ -87,6 +90,11 @@ def main():
     if not os.path.isdir(aligned_dir):
         print("creating %s" % aligned_dir)
         os.mkdir(aligned_dir)
+
+    dash_app_thread = threading.Thread(
+        target=start_dash_app, args=[logfile], daemon=True
+    )
+    dash_app_thread.start()
 
     while True:
         try:

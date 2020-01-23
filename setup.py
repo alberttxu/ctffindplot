@@ -9,7 +9,7 @@ setuptools.setup(
     author_email="albert.t.xu@gmail.com",
     license="MIT",
     packages=setuptools.find_packages(),
-    install_requires=["PyGnuplot"],
+    install_requires=["PyGnuplot", "dash", "pandas"],
     entry_points={"console_scripts": ["ctffindplot = ctffindplot.__main__:main"]},
     classifiers=[
         "Programming Language :: Python :: 3",
