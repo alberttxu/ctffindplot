@@ -98,19 +98,26 @@ def main():
 
     try:
         while True:
-            aliMrcFiles = sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))[:-4]
-            for f in aliMrcFiles:
-                if isReady(f):
+            aliMrcFiles = sorted(f for f in os.listdir(".") if f.endswith("ali.mrc"))
+            if len(aliMrcFiles) <= 4:
+                print(
+                    "Waiting for at least 5 _ali.mrc files to appear. Currently there are %d"
+                    % len(aliMrcFiles)
+                )
+                time.sleep(5)
+            for alimrc in aliMrcFiles[:-4]:
+                if isReady(alimrc):
+                    print("running ctffind on %s" % alimrc)
                     start = time.time()
-                    ctffind(f, params_file)
-                    root, ext = os.path.splitext(f)
+                    ctffind(alimrc, params_file)
+                    root, ext = os.path.splitext(alimrc)
                     ctffindOutputTxt = root + "_output.txt"
                     plot_ctffind_output(logfile, ctffindOutputTxt, output)
-                    cleanup(f, aligned_dir, ctf_fits_dir)
+                    cleanup(alimrc, aligned_dir, ctf_fits_dir)
                     end = time.time()
                     print("processed in %.2f sec" % (end - start))
     except KeyboardInterrupt:
-        print('terminate')
+        print("terminated ctffindplot")
     finally:
         dash_app_server.terminate()
         dash_app_server.join()

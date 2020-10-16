@@ -4,9 +4,15 @@ import PyGnuplot as gp
 def parseCtffindOutput(outputTxt):
     with open(outputTxt) as f:
         lines = f.readlines()
-    # expected filename format: *_1234_ali.mrc
+    # expected filename format: *_1234_*ali.mrc
     filename = lines[1].split()[3]
-    picNumber = int(filename.split('_')[-2])
+    for string in filename.split('_'):
+        if string.isdigit():
+            picNumber = int(string)
+            break
+    else:
+        print("Could not find any '_INTEGER_' substring in the filename %s" % filename)
+
     values = [float(x) for x in lines[5].split()][1:]
     # convert phase shift to degrees
     values[3] = float('%.6f' % (values[3] * 180/3.14))
